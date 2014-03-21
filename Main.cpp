@@ -4,11 +4,24 @@
 
 #include "Event.h"
 
-class Main {
+int main() {
+	DateTime TMax, DT;
+	int teller;
+	char code;
 
-public:
-	Main() {}
+	cin >> TMax;
+	//cout << TMax << endl;
+	cout << "teller: "; cin >> teller;
+	Event E(TMax, teller);
+	do {
+		cin >> DT >> code;
+		if (DT.compare(TMax) <= 0) {
+			E.process(DT, code);
+			cout << E << endl;
+		}
+	} while (DT.compare(TMax) < 0);
+	cout << "Loop terminate" << endl;
+	E.closing();
 
-	~Main() {}
-
-};
+	return 0;
+}

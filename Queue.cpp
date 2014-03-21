@@ -18,8 +18,8 @@ Queue& Queue::operator=(const Queue& Q) {
 
 Queue::~Queue() {}
 
-ostream& operator<<(ostream& os, Queue& Q) {
-	for (list<int>::iterator it=Q.L.begin(); it!=Q.L.end(); ++it) {
+ostream& operator<<(ostream& os, const Queue& Q) {
+	for (list<int>::const_iterator it=Q.L.begin(); it!=Q.L.end(); ++it) {
 		if (it != Q.L.begin()) {
 			os << ", ";
 		}
@@ -37,6 +37,14 @@ int Queue::getTail() {
 	return L.back();
 }
 
+bool Queue::isEmpty() {
+	return L.empty();
+}
+
+int Queue::size() {
+	return L.size();
+}
+
 void Queue::add(int i) {
 	L.push_back(i);
 }
@@ -45,10 +53,9 @@ void Queue::del() {
 	L.pop_front();
 }
 
-bool Queue::isEmpty() {
-	return L.empty();
-}
+int Queue::move() {
+	int tail = getTail();
+	L.pop_back();
 
-int Queue::size() {
-	return L.size();
+	return tail;
 }

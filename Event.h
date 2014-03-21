@@ -7,7 +7,6 @@
 #include "Queue.h"
 #include "DateTime.h"
 #include <iostream>
-//#include <ostream>
 
 class Event {
 
@@ -35,7 +34,7 @@ private:
 	Queue* Q;
 	DateTime TMax;
 	int teller;
-	static int customer;
+	int customer;
 
 };
 

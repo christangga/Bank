@@ -15,6 +15,8 @@ public:
 	DateTime(const DateTime& DT);
 	DateTime& operator=(const DateTime& DT);
 	~DateTime();
+	friend ostream& operator<<(ostream& os, const DateTime& DT);
+	friend istream& operator>>(istream& is, DateTime& DT);
 
 	DateTime getDateTime();
 	void setDateTime(int DD, int MM, int YY, int H, int M, int S);

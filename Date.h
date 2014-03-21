@@ -4,6 +4,8 @@
 
 #ifndef _DATE_H
 #define _DATE_H
+#include <iostream>
+using namespace std;
 
 class Date {
 
@@ -13,6 +15,8 @@ public:
 	Date(const Date& D);
 	Date& operator=(const Date& D);
 	~Date();
+	friend ostream& operator<<(ostream& os, const Date& D);
+	friend istream& operator>>(istream& is, Date& D);
 
 	Date getDate();
 	void setDate(int DD, int MM, int YY);

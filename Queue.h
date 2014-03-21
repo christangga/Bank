@@ -15,15 +15,15 @@ public:
 	Queue(const Queue& Q);
 	Queue& operator=(const Queue& Q);
 	~Queue();
-	friend ostream& operator<<(ostream& os, Queue& Q);
+	friend ostream& operator<<(ostream& os, const Queue& Q);
 
 	int getHead();
 	int getTail();
-
-	void add(int i);
-	void del();
 	bool isEmpty();
 	int size();
+	void add(int i);
+	void del();
+	int move();
 
 private:
 	list<int> L;

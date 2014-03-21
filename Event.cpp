@@ -19,15 +19,14 @@ Event::~Event() {
 }
 
 ostream& operator<<(ostream& os, Event& E) {
-	const Queue& q(E);
+	bool enter = false;
 	for (int i=0; i<E.getTeller(); ++i) {
-		if (i > 0) {
-			os << endl;
-		}
 		if (E.getQueue(i).size() > 0) {
-			os << "Q[" << i << "] = {";
-			os << E.getQueue(i);
-			os << "}";
+			if (enter) {
+				os << endl;
+			}
+			os << "Q[" << i << "] = {" << E.getQueue(i) << "}";
+			enter = true;
 		}
 	}
 
@@ -59,10 +58,10 @@ void Event::setTeller(int teller) {
 }
 
 int Event::jockeying(int iOrigin) {
-	int min = Q[0].size();
+	int min = 0;
 	for (int i=1; i<teller; ++i) {
-		if (Q[i].size() < min && i != iOrigin) {
-			min = Q[i].size();
+		if (Q[i].size() < Q[min].size()) {
+			min = i;
 		}
 	}
 	if (abs(Q[iOrigin].size() - Q[min].size()) <= 2) {
@@ -71,16 +70,14 @@ int Event::jockeying(int iOrigin) {
 
 	list<int> L;
 	for (int i=0; i<teller; ++i) {
-		if (Q[i].size() == min && i != iOrigin) {
+		if (Q[i].size() == Q[min].size() && i != iOrigin) {
 			L.push_back(i);
 		}
 	}
 
 	min = L.front();
 	for (list<int>::iterator it=L.begin(); it!=L.end(); ++it) {
-		if (it == L.begin()) {
-			++it;
-		} else if (abs(iOrigin - *it) < abs(iOrigin - min)) {
+		if (it != L.begin() && abs(iOrigin - *it) < abs(iOrigin - min)) {
 			min = *it;
 		}
 	}
@@ -104,10 +101,10 @@ void Event::process(DateTime DT, char code) {
 }
 
 void Event::arrival() {
-	int min = Q[0].size();
+	int min = 0;
 	for (int i=1; i<teller; ++i) {
-		if (Q[i].size() < min) {
-			min = Q[i].size();
+		if (Q[i].size() < Q[min].size()) {
+			min = i;
 		}
 	}
 	++customer;
@@ -118,6 +115,12 @@ void Event::departure(int n) {
 	for (int i=0; i<teller; ++i) {
 		if (Q[i].getHead() == n) {
 			Q[i].del();
+			cout << "masuk"<< endl;
+			int jockey = jockeying(i);
+			cout << "jockey " << jockey << endl;
+			if (jockey >= 0) {
+				Q[jockey].add(Q[i].move());
+			}
 			break;
 		}
 	}
